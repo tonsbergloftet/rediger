@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Tønsbergløftet — Workshopverktøy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: linear-gradient(180deg, #5bc8f5 0%, #8ddcf7 35%, #b8ecf9 58%, #d4f0e8 78%, #c8e8a0 100%);
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: background 2s ease;
+}
+
+body.levelup-bg {
+  background: linear-gradient(180deg, #ff9f5a 0%, #ffcf6e 30%, #ffe8a0 55%, #d4f0e8 78%, #c8e8a0 100%);
+}
+
+/* ── SUN ── */
+.sun {
+  position: fixed; top: 44px; right: 10%;
+  width: 72px; height: 72px;
+  background: #FFE135; border-radius: 50%;
+  box-shadow: 0 0 0 14px rgba(255,225,53,0.22), 0 0 0 32px rgba(255,225,53,0.11), 0 0 0 56px rgba(255,225,53,0.05);
+  animation: sunPulse 4s ease-in-out infinite;
+  z-index: 2;
+  transition: background 1s;
+}
+@keyframes sunPulse {
+  0%,100% { box-shadow: 0 0 0 14px rgba(255,225,53,0.22), 0 0 0 32px rgba(255,225,53,0.11); }
+  50%      { box-shadow: 0 0 0 22px rgba(255,225,53,0.30), 0 0 0 48px rgba(255,225,53,0.16); }
+}
+
+/* ── CLOUDS ── */
+.pc { position: fixed; z-index: 3; }
+.pc-inner { position: relative; }
+.pc-block { position: absolute; background: #fff; border-radius: 3px; }
+#ca { top: 88px;  animation: drift 26s linear infinite; left: -160px; }
+#cb { top: 148px; animation: drift 38s linear infinite 10s; left: -110px; opacity: 0.85; }
+#cc { top: 64px;  animation: drift 20s linear infinite 18s; left: -90px;  opacity: 0.65; }
+#ca .pc-inner { width: 120px; height: 44px; }
+#ca .b1 { width: 120px; height: 20px; bottom: 0; left: 0; }
+#ca .b2 { width: 70px;  height: 20px; bottom: 16px; left: 18px; }
+#ca .b3 { width: 36px;  height: 16px; bottom: 30px; left: 34px; }
+#cb .pc-inner { width: 82px; height: 38px; }
+#cb .b1 { width: 82px;  height: 16px; bottom: 0; left: 0; }
+#cb .b2 { width: 48px;  height: 16px; bottom: 12px; left: 14px; }
+#cb .b3 { width: 24px;  height: 12px; bottom: 22px; left: 22px; }
+#cc .pc-inner { width: 60px; height: 32px; }
+#cc .b1 { width: 60px;  height: 14px; bottom: 0; left: 0; }
+#cc .b2 { width: 36px;  height: 14px; bottom: 10px; left: 10px; }
+#cc .b3 { width: 18px;  height: 10px; bottom: 20px; left: 18px; }
+@keyframes drift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(100vw + 300px)); }
+}
+
+/* ── BIRDS ── */
+.bird { position: fixed; z-index: 4; font-size: 15px; }
+.bird1 { top: 108px; animation: birdFly 14s linear infinite; }
+.bird2 { top: 130px; animation: birdFly 20s linear infinite 6s; font-size: 11px; }
+.bird3 { top: 80px;  animation: birdFly 10s linear infinite 13s; font-size: 12px; }
+@keyframes birdFly {
+  from { left: -40px; } to { left: calc(100vw + 40px); }
+}
+
+/* ── GROUND ── */
+.ground-wrap {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 5; pointer-events: none;
+}
+.hill-far {
+  position: absolute; bottom: 52px; left: -50%; width: 200%; height: 70px;
+  background: #8acc6e; border-radius: 50%;
+  animation: hillFar 22s linear infinite;
+}
+@keyframes hillFar { from { transform: translateX(0); } to { transform: translateX(50%); } }
+.hill-near {
+  position: absolute; bottom: 48px; left: -50%; width: 200%; height: 55px;
+  background: #5aad50; border-radius: 45% 55% 0 0;
+  animation: hillNear 13s linear infinite;
+}
+@keyframes hillNear { from { transform: translateX(0); } to { transform: translateX(50%); } }
+.ground { position: absolute; bottom: 0; left: 0; right: 0; height: 52px; }
+.ground-top {
+  height: 10px;
+  background: repeating-linear-gradient(90deg, #5bbf4e 0px, #5bbf4e 32px, #4aad40 32px, #4aad40 64px);
+}
+.ground-body { height: 42px; background: #8B6340; }
+
+/* ── CHARACTERS ── */
+.char {
+  position: fixed; bottom: 52px; z-index: 30;
+  image-rendering: pixelated;
+  left: -60px;
+  transition: filter 0.3s;
+}
+#char1 { animation: walk1 11s linear infinite; }
+
+
+@keyframes walk1 { from { left: -60px; } to { left: calc(100vw + 60px); } }
+
+
+.char.jumping { animation-play-state: paused !important; }
+.char.hit { filter: brightness(2) hue-rotate(30deg); }
+
+/* ── OBSTACLES ── */
+.obstacle {
+  position: fixed;
+  bottom: 52px;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: default;
+  animation: obstMove linear forwards;
+}
+
+.obs-emoji { font-size: 28px; line-height: 1; filter: grayscale(0.2); }
+
+.obs-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: #fff;
+  background: rgba(80,30,30,0.85);
+  border: 2px solid #923c3d;
+  border-radius: 4px;
+  padding: 4px 6px;
+  text-align: center;
+  line-height: 1.5;
+  max-width: 90px;
+  white-space: normal;
+  box-shadow: 2px 2px 0 #5a1a1a;
+}
+
+@keyframes obstMove {
+  from { right: -120px; }
+  to   { right: calc(100vw + 120px); }
+}
+
+/* ── POWER-UPS ── */
+.powerup {
+  position: fixed;
+  bottom: 130px;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  animation: puMove linear forwards, puBob 0.8s ease-in-out infinite;
+  cursor: default;
+}
+
+.pu-emoji { font-size: 26px; line-height: 1; }
+
+.pu-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: #013952;
+  background: rgba(197,218,175,0.95);
+  border: 2px solid #3a8c35;
+  border-radius: 4px;
+  padding: 3px 6px;
+  white-space: nowrap;
+  box-shadow: 2px 2px 0 #2a6c25;
+}
+
+@keyframes puMove {
+  from { right: -100px; }
+  to   { right: calc(100vw + 100px); }
+}
+@keyframes puBob {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+/* ── TREES ── */
+.tree { position: fixed; bottom: 52px; z-index: 6; right: -80px; }
+.tree1 { animation: treeScroll 16s linear infinite; }
+.tree2 { animation: treeScroll 23s linear infinite 7s; }
+.tree3 { animation: treeScroll 12s linear infinite 13s; }
+@keyframes treeScroll {
+  from { right: -80px; }
+  to   { right: calc(100vw + 80px); }
+}
+.tree-trunk { width: 12px; height: 24px; background: #8B5E3C; margin: 0 auto; }
+.tree-top {
+  margin: 0 auto; background: #3a8c35;
+  clip-path: polygon(50% 0%, 0% 55%, 15% 55%, 6% 80%, 32% 80%, 22% 100%, 78% 100%, 68% 80%, 94% 80%, 85% 55%, 100% 55%);
+}
+
+/* ── BUBBLE ── */
+.content {
+  position: relative; z-index: 20;
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 72px 24px 200px; text-align: center;
+}
+
+.bubble {
+  background: #fff;
+  border: 4px solid #013952;
+  border-radius: 12px;
+  padding: 28px 32px 24px;
+  max-width: 460px; width: 100%;
+  position: relative;
+  box-shadow: 6px 6px 0 #013952;
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s;
+  animation: popIn 0.7s cubic-bezier(0.34,1.56,0.64,1) both;
+  user-select: none;
+}
+.bubble:active { transform: translate(2px,2px); box-shadow: 4px 4px 0 #013952; }
+@keyframes popIn {
+  from { opacity:0; transform: scale(0.6) translateY(30px); }
+  to   { opacity:1; transform: scale(1) translateY(0); }
+}
+.bubble::after {
+  content: ''; position: absolute;
+  bottom: -18px; left: 44px;
+  width: 14px; height: 14px;
+  background: #fff;
+  border-right: 4px solid #013952;
+  border-bottom: 4px solid #013952;
+  transform: rotate(45deg); z-index: -1;
+}
+.bubble::before {
+  content: ''; position: absolute;
+  bottom: -10px; left: 48px;
+  width: 10px; height: 10px;
+  background: #fff; z-index: 1;
+}
+
+.pxtitle {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(10px, 2.2vw, 14px);
+  color: #013952; line-height: 1.9; margin-bottom: 16px;
+}
+.pxtitle .accent { color: #923c3d; }
+
+.bsub {
+  font-size: 14px; font-weight: 400;
+  color: #3d3d3d; line-height: 1.65; margin-bottom: 18px;
+}
+
+.block {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: #f0f5ea; border: 2px solid #c5daaf;
+  border-radius: 8px; padding: 11px 14px; text-align: left;
+}
+.block-icon { font-size: 17px; flex-shrink: 0; margin-top: 1px; }
+.block-text { font-size: 12px; color: #3d5a3e; line-height: 1.55; }
+.block-text strong {
+  display: block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px; color: #013952;
+  margin-bottom: 5px; letter-spacing: 0.04em;
+}
+
+.hint {
+  margin-top: 14px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px; color: rgba(1,57,82,0.4);
+  animation: blink 1.2s step-end infinite;
+}
+@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+
+/* ── HUD ── */
+.hud {
+  position: fixed; top: 12px; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between;
+  padding: 0 20px; pointer-events: none;
+}
+.hud-box {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px; color: #013952;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.8);
+  white-space: nowrap;
+}
+
+/* ── POPUP TEXT ── */
+.popup {
+  position: fixed; z-index: 60;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  pointer-events: none;
+  animation: popUp 1s ease both;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+}
+@keyframes popUp {
+  0%   { opacity:1; transform: translateY(0) scale(1); }
+  70%  { opacity:1; transform: translateY(-50px) scale(1.15); }
+  100% { opacity:0; transform: translateY(-80px) scale(0.9); }
+}
+
+/* ── LEVEL UP BANNER ── */
+.lvl-banner {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  z-index: 90;
+  font-family: 'Press Start 2P', monospace;
+  text-align: center;
+  background: rgba(255,255,255,0.95);
+  border: 6px solid #013952;
+  border-radius: 16px;
+  padding: 28px 40px;
+  box-shadow: 8px 8px 0 #013952;
+  animation: bannerPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+  pointer-events: none;
+}
+.lvl-banner .lvl-title { font-size: clamp(16px,4vw,24px); color: #923c3d; margin-bottom: 12px; }
+.lvl-banner .lvl-msg   { font-size: clamp(7px,1.5vw,9px);  color: #013952; line-height: 1.9; }
+@keyframes bannerPop {
+  from { opacity:0; transform: translate(-50%,-50%) scale(0.5); }
+  to   { opacity:1; transform: translate(-50%,-50%) scale(1); }
+}
+
+/* ── FOOTER ── */
+footer {
+  position: fixed; bottom: 6px; left: 0; right: 0; z-index: 30;
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px; color: rgba(1,57,82,0.45);
+  pointer-events: none;
+}
+
+/* ── HOPP INDICATOR ── */
+.hopp-warn {
+  position: fixed;
+  bottom: 110px;
+  z-index: 50;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: #923c3d;
+  text-shadow: 2px 2px 0 rgba(255,255,255,0.8);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+.hopp-warn.visible {
+  opacity: 1;
+  animation: hoppBounce 0.3s ease-in-out infinite alternate;
+}
+@keyframes hoppBounce {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-6px); }
+}
+
+</style>
+</head>
+<body>
+
+<!-- HUD -->
+<div class="hud">
+  <div class="hud-box" id="score-hud">POENG: 000</div>
+  <div class="hud-box" id="level-hud">LVL 1</div>
+  <div class="hud-box" id="lives-hud">❤️❤️❤️</div>
+</div>
+
+<!-- Sun -->
+<div class="sun"></div>
+
+<!-- Clouds -->
+<div class="pc" id="ca">
+  <div class="pc-inner">
+    <div class="pc-block b1"></div><div class="pc-block b2"></div><div class="pc-block b3"></div>
+  </div>
+</div>
+<div class="pc" id="cb">
+  <div class="pc-inner">
+    <div class="pc-block b1"></div><div class="pc-block b2"></div><div class="pc-block b3"></div>
+  </div>
+</div>
+<div class="pc" id="cc">
+  <div class="pc-inner">
+    <div class="pc-block b1"></div><div class="pc-block b2"></div><div class="pc-block b3"></div>
+  </div>
+</div>
+
+<!-- Birds -->
+<div class="bird bird1">🐦</div>
+<div class="bird bird2">🐦</div>
+<div class="bird bird3">🐦</div>
+
+<!-- Trees -->
+<div class="tree tree1">
+  <div class="tree-top" style="width:40px;height:48px;"></div>
+  <div class="tree-trunk"></div>
+</div>
+<div class="tree tree2">
+  <div class="tree-top" style="width:52px;height:58px;background:#4aad45;"></div>
+  <div class="tree-trunk" style="width:14px;height:28px;"></div>
+</div>
+<div class="tree tree3">
+  <div class="tree-top" style="width:30px;height:36px;background:#5bbd55;"></div>
+  <div class="tree-trunk" style="width:10px;height:18px;"></div>
+</div>
+
+<!-- Hopp warning -->
+<div class="hopp-warn" id="hopp-warn">⬆ HOPP!</div>
+
+<!-- Characters -->
+<div class="char" id="char1">
+  <svg width="40" height="55" viewBox="0 0 8 11" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;display:block;">
+    <rect x="1" y="0" width="6" height="1" fill="#5C3317"/>
+    <rect x="1" y="1" width="6" height="4" fill="#FFCC88"/>
+    <rect x="2" y="2" width="1" height="1" fill="#333"/>
+    <rect x="5" y="2" width="1" height="1" fill="#333"/>
+    <rect x="1" y="5" width="6" height="3" fill="#013952"/>
+    <rect x="0" y="5" width="1" height="2" fill="#013952"/>
+    <rect x="7" y="5" width="1" height="2" fill="#013952"/>
+    <rect x="1" y="8" width="2" height="2" fill="#013952"/>
+    <rect x="5" y="8" width="2" height="2" fill="#013952"/>
+    <rect x="0" y="10" width="3" height="1" fill="#333"/>
+    <rect x="5" y="10" width="3" height="1" fill="#333"/>
+  </svg>
+</div>
+
+
+<!-- Ground -->
+<div class="ground-wrap">
+  <div class="hill-far"></div>
+  <div class="hill-near"></div>
+  <div class="ground">
+    <div class="ground-top"></div>
+    <div class="ground-body"></div>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="content">
+  <div class="bubble" id="bubble" onclick="handleBubbleClick(event)">
+    <div class="pxtitle">Tønsbergløftet<br><span class="accent">Rediger</span></div>
+    <p class="bsub">
+      Dette er et internt arbeidsverktøy for å redigere tekst i ulike illustrasjoner. Innholdet er ikke ment for offentlig skue. Ingen hemmeligheter, men helelr ikke så interessant for andre.
+    </p>
+    <div class="block">
+      <span class="block-icon">🔒</span>
+      <div class="block-text">
+        <strong>Tilgang etter invitasjon</strong>
+        Har du mottatt en lenke? Bruk den direkte. Ellers: ta kontakt med Tønsbergløftet.
+      </div>
+    </div>
+    <div class="hint">▶ TRYKK FLERE GANGER FOR Å HOLDE DEG I LUFTA</div>
+  </div>
+</div>
+
+<footer>© TØNSBERGLØFTET · INTERNT VERKTØY · PRESS START</footer>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────
+let score       = 0;
+let level       = 1;
+let lives       = 3;
+let hitCooldown = false;
+
+// ── PHYSICS ────────────────────────────────────────────────────
+const GROUND   = 52;
+const GRAVITY  = 0.7;
+const JUMP_VEL = 10;
+const MAX_JUMPS = 4;
+
+let charBottom = GROUND;
+let velY       = 0;
+let jumpCount  = 0;
+
+function physicsLoop() {
+  const el = document.getElementById('char1');
+  if (!el) { requestAnimationFrame(physicsLoop); return; }
+  velY      -= GRAVITY;
+  charBottom += velY;
+  const ceiling = window.innerHeight * 0.48;
+  if (charBottom > ceiling) { charBottom = ceiling; velY = 0; }
+  if (charBottom <= GROUND) { charBottom = GROUND; velY = 0; jumpCount = 0; }
+  el.style.bottom = charBottom + 'px';
+  requestAnimationFrame(physicsLoop);
+}
+// Physics starts after DOM ready - see init below
+
+// ── JUMP ───────────────────────────────────────────────────────
+function jump() {
+  if (jumpCount >= MAX_JUMPS) return;
+  velY       = JUMP_VEL;
+  jumpCount++;
+  charBottom = Math.max(charBottom, GROUND + 1);
+  score += 5;
+  updateHUD();
+  checkLevelUp();
+}
+
+// ── DATA ───────────────────────────────────────────────────────
+const OBSTACLES = [
+  { emoji: '\u{1F4CB}', label: 'Skriv en<br>plan f\u00f8rst' },
+  { emoji: '\u{1F4B8}', label: 'Det koster<br>mye penger' },
+  { emoji: '\u{1F645}', label: 'Vi vet hva<br>brukere trenger' },
+  { emoji: '\u{1F501}', label: 'Det har vi<br>pr\u00f8vd f\u00f8r' },
+];
+
+const POWERUPS = [
+  { emoji: '\u{1F4A1}', label: 'God id\u00e9!',      pts: 50,  color: '#FFE135' },
+  { emoji: '\u{1F91D}', label: 'Samarbeid!',          pts: 80,  color: '#c5daaf' },
+  { emoji: '\u{1F4CA}', label: 'Data-drevet!',        pts: 60,  color: '#91cef2' },
+  { emoji: '\u{1F513}', label: 'Tillitsreform!',      pts: 100, color: '#f1be48' },
+  { emoji: '\u{1F680}', label: 'Bare pr\u00f8v det!', pts: 120, color: '#e69d7d' },
+];
+
+const LEVEL_MSGS = [
+  { title: '\u{1F389} LEVEL 2!', msg: 'F\u00f8rste barriere<br>sprengt!<br>Siloene skjelver.' },
+  { title: '\u{1F525} LEVEL 3!', msg: 'Tverrfaglig team!<br>Intet stopper dere<br>n\u00e5!' },
+  { title: '\u2728 LEVEL 4!',    msg: 'Brukerne er med!<br>Dette ser lovende<br>ut.' },
+  { title: '\u{1F3C6} LEVEL 5!', msg: 'INNOVASJON<br>ERKL\u00C6RT!<br>Rapportene er<br>brent.' },
+];
+
+const SCORE_PER_LEVEL = 200;
+
+// ── HUD ────────────────────────────────────────────────────────
+function updateHUD() {
+  document.getElementById('score-hud').textContent = 'POENG: ' + String(score).padStart(3, '0');
+  document.getElementById('level-hud').textContent = 'LVL ' + level;
+  document.getElementById('lives-hud').textContent = '\u2764\uFE0F'.repeat(Math.max(0, lives));
+}
+
+// ── POPUP ───────────────────────────────────────────────────────
+function showPopup(text, x, y, color) {
+  const el = document.createElement('div');
+  el.className   = 'popup';
+  el.textContent = text;
+  el.style.left  = x + 'px';
+  el.style.top   = y + 'px';
+  el.style.color = color || '#FFE135';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1050);
+}
+
+// ── LEVEL UP ────────────────────────────────────────────────────
+function checkLevelUp() {
+  const next = Math.floor(score / SCORE_PER_LEVEL) + 1;
+  if (next > level && next <= 5) {
+    level = next;
+    updateHUD();
+    const msg = LEVEL_MSGS[level - 2];
+    if (msg) showLevelBanner(msg.title, msg.msg);
+    if (level >= 3) document.body.classList.add('levelup-bg');
+  }
+}
+
+function showLevelBanner(title, msg) {
+  const el = document.createElement('div');
+  el.className = 'lvl-banner';
+  el.innerHTML = '<div class="lvl-title">' + title + '</div><div class="lvl-msg">' + msg + '</div>';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 2800);
+}
+
+// ── OBSTACLES ──────────────────────────────────────────────────
+function spawnObstacle() {
+  const obs      = OBSTACLES[Math.floor(Math.random() * OBSTACLES.length)];
+  const el       = document.createElement('div');
+  el.className   = 'obstacle';
+  const duration = 6500 + Math.random() * 3000;
+  el.innerHTML   = '<div class="obs-emoji">' + obs.emoji + '</div><div class="obs-label">' + obs.label + '</div>';
+  el.style.animationDuration = duration + 'ms';
+  document.body.appendChild(el);
+
+  const warnEl = document.getElementById('hopp-warn');
+
+  const ticker = setInterval(function() {
+    if (!el.isConnected) { clearInterval(ticker); return; }
+    const rect  = el.getBoundingClientRect();
+    const char1 = document.getElementById('char1').getBoundingClientRect();
+
+    // Warning
+    const dist = rect.left - char1.right;
+    if (dist > 0 && dist < 280) {
+      warnEl.style.left = (char1.left + char1.width / 2 - 30) + 'px';
+      warnEl.classList.add('visible');
+    } else {
+      warnEl.classList.remove('visible');
+    }
+
+    // Collision
+    const xOverlap  = rect.left < char1.right - 18 && rect.right > char1.left + 18;
+    const notJumping = charBottom < GROUND + 35;
+    if (xOverlap && notJumping && !hitCooldown) {
+      hitCooldown = true;
+      lives = Math.max(0, lives - 1);
+      updateHUD();
+      showPopup('BUMF!', rect.left, rect.top - 30, '#923c3d');
+      const ch = document.getElementById('char1');
+      ch.classList.add('hit');
+      setTimeout(function() { ch.classList.remove('hit'); }, 600);
+      setTimeout(function() { hitCooldown = false; }, 1200);
+    }
+  }, 60);
+
+  setTimeout(function() {
+    el.remove();
+    clearInterval(ticker);
+    warnEl.classList.remove('visible');
+    scheduleObstacle();
+  }, duration + 200);
+}
+
+function scheduleObstacle() {
+  setTimeout(spawnObstacle, 3000 + Math.random() * 4000);
+}
+
+// ── POWERUPS ───────────────────────────────────────────────────
+function spawnPowerup() {
+  const pu       = POWERUPS[Math.floor(Math.random() * POWERUPS.length)];
+  const el       = document.createElement('div');
+  el.className   = 'powerup';
+  const duration = 6000 + Math.random() * 3000;
+  el.innerHTML   = '<div class="pu-emoji">' + pu.emoji + '</div><div class="pu-label">' + pu.label + '</div>';
+  el.style.animationDuration = duration + 'ms, 0.8s';
+  document.body.appendChild(el);
+
+  const ticker = setInterval(function() {
+    if (!el.isConnected) { clearInterval(ticker); return; }
+    const rect  = el.getBoundingClientRect();
+    const char1 = document.getElementById('char1').getBoundingClientRect();
+    const xOverlap = rect.left < char1.right - 6 && rect.right > char1.left + 6;
+    const yOverlap = charBottom > GROUND + 20;
+    if (xOverlap && yOverlap) {
+      score += pu.pts;
+      updateHUD();
+      checkLevelUp();
+      showPopup(pu.emoji + ' +' + pu.pts, rect.left, rect.top - 20, pu.color);
+      el.remove();
+      clearInterval(ticker);
+      schedulePowerup();
+    }
+  }, 60);
+
+  setTimeout(function() {
+    if (el.isConnected) { el.remove(); clearInterval(ticker); schedulePowerup(); }
+  }, duration + 200);
+}
+
+function schedulePowerup() {
+  setTimeout(spawnPowerup, 4000 + Math.random() * 6000);
+}
+
+// ── BUBBLE CLICK ────────────────────────────────────────────────
+function handleBubbleClick(e) {
+  jump();
+  showPopup('+5', e.clientX, e.clientY - 20, '#FFE135');
+}
+
+// ── CONTROLS ────────────────────────────────────────────────────
+document.addEventListener('keydown', function(e) {
+  if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
+    e.preventDefault();
+    jump();
+  }
+});
+document.addEventListener('touchstart', function(e) {
+  if (!e.target.closest('.bubble')) jump();
+}, { passive: true });
+
+// ── INIT ────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  charBottom = GROUND;
+  document.getElementById('char1').style.bottom = GROUND + 'px';
+  physicsLoop();
+  updateHUD();
+  scheduleObstacle();
+  schedulePowerup();
+});
+</script>
